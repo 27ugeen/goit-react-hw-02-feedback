@@ -13,9 +13,9 @@ export default class App extends Component {
   };
 
   static propTypes = {
-    good: PropTypes.number,
-    neutral: PropTypes.number,
-    bad: PropTypes.number,
+    good: PropTypes.number.isRequired,
+    neutral: PropTypes.number.isRequired,
+    bad: PropTypes.number.isRequired,
     countTotalFeedback: PropTypes.func,
     countPositiveFeedbackPercentage: PropTypes.func,
     addFeedback: PropTypes.func,
@@ -28,13 +28,8 @@ export default class App extends Component {
     bad: this.props.bad,
   };
 
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    return Object.values({ good, neutral, bad }).reduce(
-      (acc, value) => acc + value,
-      0,
-    );
-  };
+  countTotalFeedback = () =>
+    Object.values(this.state).reduce((acc, value) => acc + value, 0);
 
   countPositiveFeedbackPercentage = () =>
     Math.round((this.state.good / this.countTotalFeedback()) * 100);
@@ -55,12 +50,12 @@ export default class App extends Component {
     const { good, neutral, bad } = this.state;
     const total = this.countTotalFeedback();
     const positive = this.countPositiveFeedbackPercentage();
-
+    const options = Object.keys(this.state);
     return (
       <>
         <Section title="Plese leave feedback">
           <FeedbackOptions
-            options={this.state}
+            options={options}
             onLeaveFeedback={this.updateStatistics}
           />
         </Section>

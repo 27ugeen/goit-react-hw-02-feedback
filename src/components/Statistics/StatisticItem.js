@@ -10,8 +10,8 @@ const StatisticItem = ({ label, value }) => (
 );
 
 StatisticItem.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default StatisticItem;
