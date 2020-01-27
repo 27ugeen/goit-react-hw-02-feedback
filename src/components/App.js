@@ -16,8 +16,6 @@ export default class App extends Component {
     good: PropTypes.number,
     neutral: PropTypes.number,
     bad: PropTypes.number,
-    total: PropTypes.number,
-    positive: PropTypes.number,
     countTotalFeedback: PropTypes.func,
     countPositiveFeedbackPercentage: PropTypes.func,
     addFeedback: PropTypes.func,
@@ -31,31 +29,20 @@ export default class App extends Component {
   };
 
   countTotalFeedback = () => {
-    this.setState(({ good, neutral, bad }) => {
-      const totalFeedback = Object.values({ good, neutral, bad }).reduce(
-        (acc, value) => acc + value,
-        0,
-      );
-      return {
-        total: totalFeedback,
-      };
-    });
+    const { good, neutral, bad } = this.state;
+    return Object.values({ good, neutral, bad }).reduce(
+      (acc, value) => acc + value,
+      0,
+    );
   };
 
-  countPositiveFeedbackPercentage = () => {
-    this.setState(prevState => {
-      return {
-        positive: Math.round((prevState.good / prevState.total) * 100),
-      };
-    });
-  };
+  countPositiveFeedbackPercentage = () =>
+    Math.round((this.state.good / this.countTotalFeedback()) * 100);
 
   addFeedback = type => {
-    this.setState(prevState => {
-      return {
-        [type]: prevState[type] + 1,
-      };
-    });
+    this.setState(prevState => ({
+      [type]: prevState[type] + 1,
+    }));
   };
 
   updateStatistics = type => {
@@ -65,12 +52,17 @@ export default class App extends Component {
   };
 
   render() {
-    const { good, neutral, bad, total, positive } = this.state;
+    const { good, neutral, bad } = this.state;
+    const total = this.countTotalFeedback();
+    const positive = this.countPositiveFeedbackPercentage();
 
     return (
       <>
         <Section title="Plese leave feedback">
-          <FeedbackOptions onLeaveFeedback={this.updateStatistics} />
+          <FeedbackOptions
+            options={this.state}
+            onLeaveFeedback={this.updateStatistics}
+          />
         </Section>
         <Section title="Statistics">
           {!total ? (

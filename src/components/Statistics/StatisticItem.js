@@ -11,7 +11,7 @@ const StatisticItem = ({ label, value }) => (
 
 StatisticItem.propTypes = {
   label: PropTypes.string,
-  // value: PropTypes.number,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default StatisticItem;
