@@ -16,10 +16,6 @@ export default class App extends Component {
     good: PropTypes.number.isRequired,
     neutral: PropTypes.number.isRequired,
     bad: PropTypes.number.isRequired,
-    countTotalFeedback: PropTypes.func,
-    countPositiveFeedbackPercentage: PropTypes.func,
-    addFeedback: PropTypes.func,
-    updateStatistics: PropTypes.func,
   };
 
   state = {
